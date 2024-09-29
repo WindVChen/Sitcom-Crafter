@@ -1,0 +1,25 @@
+modelconfig:
+  gender: neutral
+  h_dim: 128
+  n_blocks: 10
+  n_recur: 3
+  marker_filepath: D:/Motion/Story-HIM/HSInter/data/models_smplx_v1_1/models/markers
+  seq_len: 40
+  actfun: relu
+  use_cont: true
+  
+
+lossconfig:
+  weight_rec: 1.0
+  weight_reg_hpose: 0.01
+
+trainconfig:
+  learning_rate: 0.001
+  batch_size: 128
+  num_workers: 16
+  num_epochs: 300
+  num_epochs_fix: 60
+  saving_per_X_ep: 30
+  body_model_path: D:/Motion/Envs/smplx/models
+  dataset_path: D:/Motion/Dataset/InterGen/motions_customized
+  is_train_smplx: False

@@ -1,0 +1,26 @@
+interhuman:
+    NAME: interhuman
+    DATA_ROOT: D:/Motion/Dataset/InterGen/motions_customized
+    DATA_INTERX_ROOT: D:/Motion/Dataset/Inter-X/motions_customized_fps30
+    MOTION_REP: global
+    MODE: train
+    USE_INTERX: False
+    CACHE: False # True will cache the dataset in memory, but will lead to context modified after one epoch because of the existence of canonicalization.
+
+interhuman_val:
+    NAME: interhuman
+    DATA_ROOT: D:/Motion/Dataset/InterGen/motions_customized
+    DATA_INTERX_ROOT: D:/Motion/Dataset/Inter-X/motions_customized_fps30
+    MOTION_REP: global
+    MODE: val
+    USE_INTERX: False
+    CACHE: False
+
+interhuman_test:
+    NAME: interhuman
+    DATA_ROOT: D:/Motion/Dataset/InterGen/motions_customized
+    DATA_INTERX_ROOT: D:/Motion/Dataset/Inter-X/motions_customized_fps30
+    MOTION_REP: global
+    MODE: test
+    USE_INTERX: False
+    CACHE: False
