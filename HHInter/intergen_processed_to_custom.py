@@ -9,6 +9,7 @@ from natsort import ns, natsorted
 from pytorch3d import transforms
 from HHInter.common.quaternion import *
 import os, sys
+from HHInter.global_path import get_dataset_path
 
 
 
@@ -81,19 +82,19 @@ def rigid_transform_3D(A_all, B_all):
 
 if __name__ == "__main__":
     "If use SMPLX, there will be obvious distortion."
-    bm_fname = r'D:\Motion\Dataset\smplh\neutral/model.npz'
+    bm_fname = os.path.join(get_dataset_path(), 'smplh/neutral/model.npz')
     bm = BodyModel(bm_fname=bm_fname, num_betas=10)
 
     # ==================================================================
     pkl_info = OrderedDict({})
 
-    save_path = r"D:\Motion\Dataset\InterGen\motions_processed_to_custom"
+    save_path = os.path.join(get_dataset_path(), "InterGen/motions_processed_to_custom")
     if not os.path.exists(save_path):
         os.makedirs(save_path)
 
-    for name in tqdm.tqdm(natsorted(os.listdir(r"D:\Motion\Dataset\InterGen\motions_processed/person1"), alg=ns.PATH)):
+    for name in tqdm.tqdm(natsorted(os.listdir(os.path.join(get_dataset_path(), "InterGen/motions_processed/person1")), alg=ns.PATH)):
         # From raw data:
-        with open(rf"D:\Motion\Dataset\InterGen/motions/{name[:-4]}.pkl", "rb") as f:
+        with open(os.path.join(get_dataset_path(), f"InterGen/motions/{name[:-4]}.pkl"), "rb") as f:
             data = pickle.load(f)
 
         A1_beta = torch.from_numpy(data["person1"]['betas']).view(-1, 10)
@@ -104,7 +105,7 @@ if __name__ == "__main__":
         template = bm(betas=A2_beta)
         A2 = template.Jtr[:, :4].numpy()
 
-        data1 = np.load(f"D:/Motion/Dataset/InterGen/motions_processed/person1/{name}")
+        data1 = np.load(os.path.join(get_dataset_path(), f"InterGen/motions_processed/person1/{name}"))
 
         rot_6d = data1[..., 62 * 3:62 * 3 + 21 * 6]
         data1 = data1[..., :22 * 3]
@@ -133,7 +134,7 @@ if __name__ == "__main__":
                                'trans': (torch.from_numpy(root_pos_init[:, 0]) - torch.from_numpy(A1[:, 0]).expand(rot_axis_angle.shape[0], 3)).numpy(),
                                'gender': 'neutral'}
 
-        data1 = np.load(f"D:/Motion/Dataset/InterGen/motions_processed/person2/{name}")
+        data1 = np.load(os.path.join(get_dataset_path(), f"InterGen/motions_processed/person2/{name}"))
 
         rot_6d = data1[..., 62 * 3:62 * 3 + 21 * 6]
         data1 = data1[..., :22 * 3]

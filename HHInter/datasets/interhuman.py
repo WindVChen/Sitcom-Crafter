@@ -279,7 +279,7 @@ class InterHumanDataset(data.Dataset):
                         file_synthetic_scene = pjoin(root.replace("person1", "synthetic_scene"), file)
                         if data_path == opt.DATA_ROOT:
                             text_path = file_path_person1.replace(
-                                "motions_customized_intergen_convert_fps30" if is_eval else "motions_customized",
+                                "motions_customized_intergen_convert_fps30" if is_eval else "motions_customized_intergen_convert_fps30",
                                 "annots").replace("person1", "").replace("_swap", "").replace("npz", "txt")
                         else:
                             text_path = file_path_person1.replace(

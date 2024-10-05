@@ -53,6 +53,6 @@ class ClassifierFreeSampleModel(nn.Module):
         #         points_marker.append(sm)
         #     points = trimesh.util.concatenate(points_marker)
         #
-        #     points.export(r"D:\Motion\Story-HIM\HHInter\intermediate_res\points_marker_{}.ply".format(timesteps.item()))
+        #     points.export(r"D:\Motion\Sitcom-Crafter\HHInter\intermediate_res\points_marker_{}.ply".format(timesteps.item()))
 
         return cfg_out

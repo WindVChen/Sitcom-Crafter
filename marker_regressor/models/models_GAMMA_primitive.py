@@ -53,13 +53,12 @@ class ResNetBlock(nn.Module):
 
 
 class MoshRegressor(nn.Module):
-    """the body regressor in GAMMA.
+    """the body regressor in Sitcom-Crafter.
 
-    GAMMA contains two basic modules, the marker predictor and the body regressor.
-    This body regressor takes a batch of primitive markers as well as the betas, and produces the corresponding body parameters
-    The body parameter vector is in the shape of (b, 93), including the translation, global_orient, body_pose and hand_pose.
+    This body regressor takes a batch of primitive markers, and produces the corresponding body parameters as well as the betas
+    The body parameter vector is in the shape of (b, 103), including the translation, global_orient, body_pose, hand_pose and betas.
 
-    Gender is assumed to be pre-fixed when using the body regressor.
+    Gender is assumed to be Neutral when using the body regressor.
 
     """
     def __init__(self, config):
@@ -80,7 +79,6 @@ class MoshRegressor(nn.Module):
                                 self.h_dim, self.body_shape_dim, self.n_blocks // 4,
                                 actfun=self.actfun)
 
-        ## about the policy network
         self.pnet = ResNetBlock(self.in_dim+self.body_dim+self.body_shape_dim,
                                 self.h_dim, self.body_dim, self.n_blocks,
                                 actfun=self.actfun)
@@ -271,10 +269,6 @@ class GAMMARegressorTrainOP(TrainOP):
         #                             num_epochs_fix=self.trainconfig['num_epochs_fix'],
         #                             num_epochs=self.trainconfig['num_epochs'])
         scheduler = CosineWarmupScheduler(optimizer=optimizer, warmup=10, max_iters=self.trainconfig['num_epochs'], verbose=True)
-
-        # self.model.load_state_dict(torch.load(
-        #     r"D:\Motion\Story-HIM\HSInter\results\exp_GAMMAPrimitive\MoshRegressor_v3_female\checkpoints\epoch-100.ckp",
-        #     map_location=self.device)['model_state_dict'], strict=False)
 
         # training main loop
         loss_names = ['MSE_MARKER', 'MSE_GPOSE', 'MSE_BPOSE'] if self.trainconfig['is_train_smplx'] else ['MSE_MARKER', 'MSE_BETAS', 'MSE_TRANSL', 'MSE_GPOSE', 'MSE_BPOSE']

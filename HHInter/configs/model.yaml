@@ -1,12 +1,12 @@
-NAME: Story-HIM
+NAME: Sitcom-Crafter
 NUM_LAYERS: 8
 NUM_HEADS: 8
 DROPOUT: 0.1
-INPUT_DIM: 201
+INPUT_DIM: 204
 LATENT_DIM: 1024
 FF_SIZE: 2048
 ACTIVATION: gelu
-CHECKPOINT: checkpoints/intergen.ckpt
+CHECKPOINT: E:\ComputerPrograms\HumanMotion\Sitcom-Crafter\HHInter\checkpoints\Phase-3.ckpt
 
 DIFFUSION_STEPS: 1000
 BETA_SCHEDULER: cosine
@@ -22,6 +22,7 @@ CONTROL: text
 STRATEGY: ddim50
 CFG_WEIGHT: 3.5
 
+TRAIN_PHASE_TWO: False
 USE_VERTEX_PENETRATION: False
 SDF_POINTS_RES: 128
 Normalizing: True

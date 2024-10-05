@@ -2,7 +2,7 @@ import sys
 
 import torch
 
-sys.path.append(sys.path[0]+r"/../")
+sys.path.append(sys.path[0]+"/../")
 
 from HHInter.global_path import *
 import smplx
@@ -299,7 +299,7 @@ def evaluate_matching_score(motion_files, file):
             person1_motion = torch.from_numpy(person1_motion[:motion_lens])
             person2_motion = torch.from_numpy(person2_motion[:motion_lens])
 
-            sdf_path = os.path.join(r"D:\Motion\Story-HIM\HSInter\data\replica", scene_name, "sdf", "scene_sdf.pkl")
+            sdf_path = os.path.join(get_program_root_path(), "Sitcom-Crafter/HSInter/data/replica", scene_name, "sdf", "scene_sdf.pkl")
             scene_sdf = pickle.load(open(sdf_path, "rb"))
 
             # identity matrix
@@ -390,7 +390,7 @@ def evaluate_matching_score(motion_files, file):
     return foot_slide_dict, foot_penetration_dict, scene_penetration_dict, human_penetration_dict
 
 if __name__ == '__main__':
-    pickle_file_root = r"D:\Motion\Story-HIM\HSInter\Results-priorMDM"
+    pickle_file_root = os.path.join(get_program_root_path(), "Sitcom-Crafter/HSInter/Results-priorMDM")
 
     device = torch.device('cuda:%d' % 0 if torch.cuda.is_available() else 'cpu')
 

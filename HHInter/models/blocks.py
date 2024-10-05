@@ -34,13 +34,12 @@ class TransformerBlock(nn.Module):
 
 
 class MoshRegressor(nn.Module):
-    """the body regressor in GAMMA.
+    """the body regressor in Sitcom-Crafter.
 
-    GAMMA contains two basic modules, the marker predictor and the body regressor.
-    This body regressor takes a batch of primitive markers as well as the betas, and produces the corresponding body parameters
-    The body parameter vector is in the shape of (b, 93), including the translation, global_orient, body_pose and hand_pose.
+    This body regressor takes a batch of primitive markers, and produces the corresponding body parameters as well as the betas
+    The body parameter vector is in the shape of (b, 103), including the translation, global_orient, body_pose, hand_pose and betas.
 
-    Gender is assumed to be pre-fixed when using the body regressor.
+    Gender is assumed to be Neutral when using the body regressor.
 
     """
     def __init__(self):

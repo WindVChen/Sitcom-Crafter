@@ -94,8 +94,8 @@ if __name__ == '__main__':
     "3) Augment data by reversing the two person."
 
     #### set input output dataset paths
-    interx_data_path = r'D:\Motion\Dataset\Inter-X\motions'
-    output_path = r'D:\Motion\Dataset\Inter-X\motions_customized_fps30'
+    interx_data_path = os.path.join(get_dataset_path(), 'Inter-X/motions')
+    output_path = os.path.join(get_dataset_path(), 'Inter-X/motions_customized_fps30')
     OUT_FPS = 30
 
     ## read the corresponding smpx verts indices as markers.

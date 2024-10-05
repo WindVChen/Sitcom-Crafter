@@ -1,7 +1,7 @@
 import sys
 import time
 
-sys.path.append(sys.path[0] + r"/../")
+sys.path.append(sys.path[0] + "/../")
 import torch
 import lightning.pytorch as pl
 import torch.optim as optim
@@ -12,6 +12,7 @@ from os.path import join as pjoin
 from torch.utils.tensorboard import SummaryWriter
 from HHInter.models import *
 from HHInter.global_path import *
+import random
 
 os.environ['PL_TORCH_DISTRIBUTED_BACKEND'] = 'nccl'
 from lightning.pytorch.strategies import DDPStrategy
@@ -190,7 +191,7 @@ class LitTrainModel(pl.LightningModule):
 
 def build_models(cfg, batch_size):
     "batch size paramter is for SMPLX model initialization in loss calculation part, that is batch_size * seq_len."
-    if cfg.NAME == "Story-HIM":
+    if cfg.NAME == "Sitcom-Crafter":
         model = InterGen(cfg, batch_size)
     return model
 
@@ -225,8 +226,8 @@ if __name__ == '__main__':
         default_root_dir=litmodel.model_dir,
         devices="auto", accelerator='gpu',
         max_epochs=train_cfg.TRAIN.EPOCH,
-        # if only a single gpu is used, comment the following line
-        # strategy=DDPStrategy(find_unused_parameters=True, process_group_backend="gloo" if sys.platform == "win32" else "nccl"),
+        # if only a single gpu is used, comment out the following line
+        strategy=DDPStrategy(find_unused_parameters=True, process_group_backend="gloo" if sys.platform == "win32" else "nccl"),
         precision=32,
         callbacks=[checkpoint_callback],
 

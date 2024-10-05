@@ -1,5 +1,5 @@
 import sys
-sys.path.append(sys.path[0]+r"/../")
+sys.path.append(sys.path[0]+"/../")
 
 from datetime import datetime
 from HHInter.utils.metrics import *
@@ -306,9 +306,9 @@ if __name__ == '__main__':
     priorMDM_flag = True
 
     if priorMDM_flag:
-        pickle_file_root = r"D:\Motion\priorMDM\results_physical"
+        pickle_file_root = os.path.join(get_program_root_path(), "priorMDM/results_physical")
     else:
-        pickle_file_root = r"D:\Motion\InterGen\results_physical"
+        pickle_file_root = os.path.join(get_program_root_path(), "InterGen/results_physical")
 
     mm_num_samples = 100
     mm_num_repeats = 30

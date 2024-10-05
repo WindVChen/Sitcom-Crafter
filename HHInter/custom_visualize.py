@@ -19,6 +19,7 @@ from HHInter.common.quaternion import *
 import pyrender
 import time
 import os, sys
+from HHInter.global_path import get_dataset_path, get_program_root_path
 
 
 def convert(data):
@@ -306,17 +307,17 @@ if __name__ == "__main__":
     is_record = False
     visualize_custom = True
     visualize_interx = False
-    display_compared_physical = True
+    display_compared_physical = False
     mv = MeshViewer(width=imw, height=imh, use_offscreen=False, record=is_record)
 
     "If use SMPLX, there will be obvious distortion."
-    bm_fname = r'D:\Motion\Dataset\smplh\neutral/model.npz' if not visualize_interx else r'D:\Motion\Envs\smplx\models\smplx\SMPLX_NEUTRAL.npz'
+    bm_fname = os.path.join(get_dataset_path(), 'smplh/neutral/model.npz') if not visualize_interx else os.path.join(get_dataset_path(), 'smplx/models/smplx/SMPLX_NEUTRAL.npz')
     bm = BodyModel(bm_fname=bm_fname, num_betas=10)
     bm_male = BodyModel(bm_fname=bm_fname.replace("NEUTRAL", "MALE"), num_betas=10)
     bm_female = BodyModel(bm_fname=bm_fname.replace("NEUTRAL", "FEMALE"), num_betas=10)
 
     # From raw data:
-    with open(r"D:\Motion\Dataset\InterGen/motions/10.pkl", "rb") as f:
+    with open(os.path.join(get_dataset_path(), "InterGen/motions/10.pkl"), "rb") as f:
         data = pickle.load(f)
 
     A1_beta = betas = torch.from_numpy(data["person1"]['betas']).view(-1, 10)
@@ -355,17 +356,17 @@ if __name__ == "__main__":
 
     # ==================================================================
     # From processed data:
-    with open(r"D:\Motion\Dataset\InterGen\motions_processed/test.txt", "r") as f:
+    with open(os.path.join(get_dataset_path(), "InterGen/motions_processed/test.txt"), "r") as f:
         test_id = f.readlines()
         for i in range(len(test_id)):
             test_id[i] = test_id[i].strip()
 
     if not visualize_custom:
         if not visualize_interx:
-            for name in natsorted(os.listdir(r"D:\Motion\Dataset\InterGen\motions_processed/person1"), alg=ns.PATH):
+            for name in natsorted(os.listdir(os.path.join(get_dataset_path(), "InterGen/motions_processed/person1")), alg=ns.PATH):
                 # if int(name[:-4].replace("_swap", "")) != 4861:
                 #     continue
-                data1 = np.load(f"D:/Motion/Dataset/InterGen/motions_processed/person1/{name}")
+                data1 = np.load(os.path.join(get_dataset_path(), f"InterGen/motions_processed/person1/{name}"))
 
                 rot_6d = data1[..., 62 * 3:62 * 3 + 21 * 6]
                 data1 = data1[..., :22 * 3]
@@ -410,7 +411,7 @@ if __name__ == "__main__":
                                         rot_axis_angle.shape[0], 3), root_orient=root_orient,
                                     betas=A1_beta.expand(rot_axis_angle.shape[0], 10))
 
-                data1 = np.load(f"D:/Motion/Dataset/InterGen/motions_processed/person2/{name}")
+                data1 = np.load(os.path.join(get_dataset_path(), f"InterGen/motions_processed/person2/{name}"))
 
                 rot_6d = data1[..., 62 * 3:62 * 3 + 21 * 6]
                 data1 = data1[..., :22 * 3]
@@ -449,8 +450,8 @@ if __name__ == "__main__":
 
                 vis_body_pose_beta(name.split(".")[0])
         else:
-            for name in natsorted(os.listdir(r"D:\Motion\Dataset\Inter-X\motions"), alg=ns.PATH):
-                data1 = deep_copy_npz(os.path.join(r"D:\Motion\Dataset\Inter-X\motions", name, "P1.npz"))
+            for name in natsorted(os.listdir(os.path.join(get_dataset_path(), "Inter-X/motions")), alg=ns.PATH):
+                data1 = deep_copy_npz(os.path.join(get_dataset_path(), "Inter-X/motions", name, "P1.npz"))
 
                 if data1['gender'] == "neutral":
                     func1 = bm
@@ -482,7 +483,7 @@ if __name__ == "__main__":
                      data1['pose_rhand']], axis=1).reshape(len(data1['trans']), 159)
                 np.save("P1_smplx_params.npy", smplx_params_a)
 
-                data2 = deep_copy_npz(os.path.join(r"D:\Motion\Dataset\Inter-X\motions", name, "P2.npz"))
+                data2 = deep_copy_npz(os.path.join(get_dataset_path(), "Inter-X/motions", name, "P2.npz"))
 
                 if data2['gender'] == "neutral":
                     func2 = bm
@@ -513,7 +514,7 @@ if __name__ == "__main__":
 
                 vis_body_pose_beta(name.split(".")[0])
     elif display_compared_physical:
-        fold_name = r"D:\Motion\InterGen\results_physical"
+        fold_name = os.path.join(get_program_root_path(), "InterGen/results_physical")
         for name in natsorted(os.listdir(fold_name), alg=ns.PATH):
             with open(os.path.join(fold_name, name), "rb") as f:
                 data = pickle.load(f).numpy()
@@ -536,13 +537,13 @@ if __name__ == "__main__":
             vis_body_pose_beta(name.split(".")[0])
     else:
         if not visualize_interx:
-            fold_name = "InterGen\motions_customized"
+            fold_name = "InterGen/motions_customized"
         else:
-            fold_name = "Inter-X\motions_customized_fps30"
-        for name in natsorted(os.listdir(rf"D:\Motion\Dataset\{fold_name}/person1"), alg=ns.PATH):
+            fold_name = "Inter-X/motions_customized_fps30"
+        for name in natsorted(os.listdir(os.path.join(get_dataset_path(), f"{fold_name}/person1")), alg=ns.PATH):
             # if int(name[:-4].replace("_swap", "")) != 4312:
             #     continue
-            data1 = np.load(rf"D:/Motion/Dataset/{fold_name}/person1/{name}")
+            data1 = np.load(os.path.join(get_dataset_path(), f"{fold_name}/person1/{name}"))
 
             if visualize_interx:
                 if data1['gender'] == "neutral":
@@ -563,7 +564,7 @@ if __name__ == "__main__":
 
             # body_pose_beta.v = torch.einsum('ij,bpj->bpi', torch.from_numpy(data1['transf_rotmat']).float(), body_pose_beta.v.float()) + torch.from_numpy(data1['transf_transl']).float()[None, :, :]
 
-            data2 = np.load(rf"D:/Motion/Dataset/{fold_name}/person2/{name}")
+            data2 = np.load(os.path.join(get_dataset_path(), f"{fold_name}/person2/{name}"))
 
             if visualize_interx:
                 if data2['gender'] == "neutral":

@@ -1,7 +1,7 @@
 interhuman:
     NAME: interhuman
-    DATA_ROOT: D:/Motion/Dataset/InterGen/motions_customized
-    DATA_INTERX_ROOT: D:/Motion/Dataset/Inter-X/motions_customized_fps30
+    DATA_ROOT: E:/Dataset/HumanMotion/InterGen/motions_customized_intergen_convert_fps30
+    DATA_INTERX_ROOT: E:/Dataset/HumanMotion/Inter-X/motions_customized_fps30
     MOTION_REP: global
     MODE: train
     USE_INTERX: False
@@ -9,8 +9,8 @@ interhuman:
 
 interhuman_val:
     NAME: interhuman
-    DATA_ROOT: D:/Motion/Dataset/InterGen/motions_customized
-    DATA_INTERX_ROOT: D:/Motion/Dataset/Inter-X/motions_customized_fps30
+    DATA_ROOT: E:/Dataset/HumanMotion/InterGen/motions_customized_intergen_convert_fps30
+    DATA_INTERX_ROOT: E:/Dataset/HumanMotion/Inter-X/motions_customized_fps30
     MOTION_REP: global
     MODE: val
     USE_INTERX: False
@@ -18,8 +18,8 @@ interhuman_val:
 
 interhuman_test:
     NAME: interhuman
-    DATA_ROOT: D:/Motion/Dataset/InterGen/motions_customized
-    DATA_INTERX_ROOT: D:/Motion/Dataset/Inter-X/motions_customized_fps30
+    DATA_ROOT: E:/Dataset/HumanMotion/InterGen/motions_customized_intergen_convert_fps30
+    DATA_INTERX_ROOT: E:/Dataset/HumanMotion/Inter-X/motions_customized_fps30
     MOTION_REP: global
     MODE: test
     USE_INTERX: False

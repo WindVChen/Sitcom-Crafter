@@ -15,6 +15,8 @@ from matplotlib import pyplot as plt
 from matplotlib import colors
 from matplotlib import cm as cmx
 import pytorch3d.transforms as transforms
+import sys
+sys.path.append(sys.path[0]+"/../")
 from HHInter.global_path import *
 
 jet = plt.get_cmap('twilight')
@@ -373,6 +375,15 @@ def vis_results_new(result_paths, vis_marker=False, vis_pelvis=True, vis_object=
                 vis_navmesh=True, start_frame=0,
                 slow_rate=1, save_path=None, add_floor=True):
     scene = pyrender.Scene()
+
+    camera_pose = np.array([[-0.01598744, -0.99864757,  0.04947156,  2.97528753],
+       [ 0.99970248, -0.01505358,  0.01919207,  3.49892502],
+       [-0.01842139,  0.04976367,  0.99859112, 16.37309936],
+       [ 0.        ,  0.        ,  0.        ,  1.        ]])
+    
+    pc = pyrender.PerspectiveCamera(yfov=np.pi / 3.0, aspectRatio=1.)
+    camera_node = scene.add(pc, pose=camera_pose, name='pc-camera')
+
     viewer = pyrender.Viewer(scene, use_raymond_lighting=True, run_in_thread=True,
                              record=True if save_path is not None else False)
     axis_node = pyrender.Node(mesh=pyrender.Mesh.from_trimesh(trimesh.creation.axis(), smooth=False), name='axis')
@@ -703,7 +714,7 @@ if __name__ == '__main__':
     parser.add_argument('--slow_rate', type=int, default=1, help="slow down animation playing speed by specified rate")
     parser.add_argument('--start_frame', type=int, default=0, help="number of the frame to start playing animation")
     parser.add_argument('--max_vis', type=int, default=8, help="maximum number of sequences to be visualized")
-    parser.add_argument('--seq_path', type=str, default=r'results/interaction/room_0/sit_chair_74_0_down/MPVAEPolicy_sit_marker/sit_2frame/policy_search/seq000/results_ssm2_67_condi_marker_inter_0.pkl', help="paths of result requences, support glob format")
+    parser.add_argument('--seq_path', type=str, default='results/interaction/room_0/sit_chair_74_0_down/MPVAEPolicy_sit_marker/sit_2frame/policy_search/seq000/results_ssm2_67_condi_marker_inter_0.pkl', help="paths of result requences, support glob format")
     # parser.add_argument('--seq_path', type=str, default=r'results/interaction/test_room/loco_inter_sit_sofa_0_*_down/MPVAEPolicy_sit_marker/sit_2frame/policy_search/seq000/results_ssm2_67_condi_marker_inter_0.pkl', help="paths of result requences, support glob format")
     # parser.add_argument('--seq_path', type=str, default=r'results/interaction/MPH8/sit_bed_9_*_down/MPVAEPolicy_sit_marker/sit_2frame/policy_search/seq000/results_ssm2_67_condi_marker_inter_0.pkl', help="paths of result requences, support glob format")
     # parser.add_argument('--seq_path', type=str, default=r'results/interaction/test_room/inter_sofa_sit_up_*/MPVAEPolicy_sit_marker/sit_1frame/policy_search/seq000/results_ssm2_67_condi_marker_inter_0.pkl', help="paths of result requences, support glob format")
@@ -721,6 +732,6 @@ if __name__ == '__main__':
         list(glob.glob(args.seq_path))[:args.max_vis],
         start_frame=args.start_frame,
         vis_navmesh=args.vis_navmesh,
-        vis_marker=False, vis_pelvis=True, vis_object=True, add_floor=args.add_floor,
-        slow_rate=args.slow_rate
+        vis_marker=False, vis_pelvis=False, vis_object=True, add_floor=args.add_floor,
+        slow_rate=args.slow_rate, save_path=args.seq_path.split('\\')[-2] + '.gif'
     )

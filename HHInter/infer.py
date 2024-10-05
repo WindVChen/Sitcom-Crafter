@@ -220,7 +220,7 @@ def pipeline_merge(sdf, text, motions, betas, hand_pose_retrieval=False):
     batch["motions"] = motions.type(torch.float32).cuda()
     batch["motion_lens"] = torch.tensor([generated_motion_length]).long().cuda()
     batch["motion_cond_length"] = torch.tensor([1]).long().cuda()
-    batch["sdf_points"] = sdf.type(torch.float32).cuda()
+    batch["sdf_points"] = sdf.type(torch.float32).cuda() if sdf is not None else None
 
     motion_output, markers, params = litmodel.generate_script(batch, is_normalize=True, betas=betas)
 

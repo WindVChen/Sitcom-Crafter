@@ -72,7 +72,7 @@ def calc_sdf(vertices, sdf_grids):
 
 
 class InterLoss(nn.Module):
-    def __init__(self, recons_loss, nb_markers, is_normalized):
+    def __init__(self, recons_loss, nb_markers, is_normalized, train_phase_two=False):
         super(InterLoss, self).__init__()
         self.nb_markers = nb_markers
         if recons_loss == 'l1':
@@ -82,6 +82,7 @@ class InterLoss(nn.Module):
         elif recons_loss == 'l1_smooth':
             self.Loss = torch.nn.SmoothL1Loss(reduction='none')
 
+        self.train_phase_two = train_phase_two
         self.weights = {}
         self.weights["RO"] = 0.001
         self.weights["JA"] = 3
@@ -137,7 +138,8 @@ class InterLoss(nn.Module):
 
         self.forward_distance_map(thresh=1)
         self.forward_joint_affinity(thresh=0.1)
-        self.forward_self_distance_map()
+        if self.train_phase_two:
+            self.forward_self_distance_map()
         self.forward_relatvie_rot()
         self.accum_loss()
 
@@ -240,7 +242,7 @@ class InterLoss(nn.Module):
 
 
 class GeometricLoss(nn.Module):
-    def __init__(self, recons_loss, nb_markers, name):
+    def __init__(self, recons_loss, nb_markers, name, train_phase_two=False):
         super(GeometricLoss, self).__init__()
         self.name = name
         self.nb_markers = nb_markers
@@ -251,6 +253,7 @@ class GeometricLoss(nn.Module):
         elif recons_loss == 'l1_smooth':
             self.Loss = torch.nn.SmoothL1Loss(reduction='none')
 
+        self.train_phase_two = train_phase_two
         self.fids = [47, 60, 55, 16, 30, 25]
 
         self.weights = {}
@@ -283,7 +286,8 @@ class GeometricLoss(nn.Module):
 
         if not is_eval:
             self.forward_vel()
-            self.forward_contact(motion_R, motion_T, motion_feet, feet_height_thresh)
+            if self.train_phase_two:
+                self.forward_contact(motion_R, motion_T, motion_feet, feet_height_thresh)
             self.accum_loss()
         else:
             self.forward_contact_eval(motion_R, motion_T, feet_height_thresh)

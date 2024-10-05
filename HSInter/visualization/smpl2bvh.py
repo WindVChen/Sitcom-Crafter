@@ -1,11 +1,12 @@
 import sys
-sys.path.append(sys.path[0]+r"/../")
-sys.path.append(sys.path[0]+r"/../../")
+sys.path.append(sys.path[0]+"/../")
+sys.path.append(sys.path[0]+"/../../")
 import torch
 import numpy as np
 import argparse
 import pickle
 import smplx
+import os
 
 from visualization.utils import bvh, quat
 from HHInter.global_path import *
@@ -17,9 +18,9 @@ def parse_args():
     parser.add_argument("--model_type", type=str, default="smpl", choices=["smpl", "smplx"])
     parser.add_argument("--gender", type=str, default="MALE", choices=["MALE", "FEMALE", "NEUTRAL"])
     parser.add_argument("--num_betas", type=int, default=10, choices=[10, 300])
-    parser.add_argument("--poses", type=str, default=r"D:\Motion\Story-HIM\HSInter\results_Story_HIM\smplh-bvh")
+    parser.add_argument("--poses", type=str, default=os.path.join(get_program_root_path(), "Sitcom-Crafter/HSInter/results_Story_HIM/smplh-bvh"))
     parser.add_argument("--fps", type=int, default=30)
-    parser.add_argument("--output", type=str, default=r"D:\Motion\Story-HIM\HSInter\results_Story_HIM\smplh-bvh")
+    parser.add_argument("--output", type=str, default=os.path.join(get_program_root_path(), "Sitcom-Crafter/HSInter/results_Story_HIM/smplh-bvh"))
     parser.add_argument("--mirror", action="store_true")
     return parser.parse_args()
 

@@ -7,6 +7,7 @@ sys.path.append(os.getcwd())
 from marker_regressor.exp_GAMMAPrimitive.utils.config_creator import ConfigCreator
 from marker_regressor.exp_GAMMAPrimitive.utils.batch_gen_amass import BatchGeneratorAMASSCanonicalized
 import random
+from HHInter.global_path import get_program_root_path
 
 
 def seed_torch(seed=0):
@@ -26,7 +27,7 @@ if __name__ == '__main__':
     parser.add_argument('--verbose', type=int, default=1)
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--gpu_index', type=int, default=0)
-    parser.add_argument('--checkpoint_path', type=str, default=r"D:\Motion\Story-HIM\marker_regressor\results-smplh\exp_GAMMAPrimitive\MoshRegressor_v3_neutral_new\checkpoints\epoch-300.ckp")
+    parser.add_argument('--checkpoint_path', type=str, default=os.path.join(get_program_root_path(), "Sitcom-Crafter/marker_regressor/results-smplh/exp_GAMMAPrimitive/MoshRegressor_v3_neutral_new/checkpoints/epoch-300.ckp"))
     args = parser.parse_args()
 
     """load the right model"""

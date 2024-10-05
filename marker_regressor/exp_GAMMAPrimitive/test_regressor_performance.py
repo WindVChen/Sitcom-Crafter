@@ -4,6 +4,7 @@ from HHInter.global_path import *
 from human_body_prior.tools.model_loader import load_model
 from human_body_prior.models.vposer_model import VPoser
 import json
+from HHInter.global_path import get_dataset_path, get_program_root_path
 
 import trimesh
 
@@ -33,7 +34,7 @@ def seed_torch(seed=0):
 seed_torch()
 
 while 1:
-    model_folder = r"D:\Motion\Envs\smplx\models"
+    model_folder = os.path.join(get_dataset_path(), "smplx/models")
     model_type = "smplx"
     ext = "pkl"
     gender = "neutral"
@@ -57,7 +58,7 @@ while 1:
         ext=ext
     )
 
-    vposer, _ = load_model('D:/Motion/Story-HIM/HSInter/data/models_smplx_v1_1/models/' + '/vposer_v2_0', model_code=VPoser,
+    vposer, _ = load_model(os.path.join(get_program_root_path(), 'Sitcom-Crafter/HSInter/data/models_smplx_v1_1/models/' + '/vposer_v2_0'), model_code=VPoser,
                            remove_words_in_model_weights='vp_model.', disable_grad=True)
     vposer.eval()
 

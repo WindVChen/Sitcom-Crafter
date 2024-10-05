@@ -3,7 +3,7 @@ modelconfig:
   h_dim: 128
   n_blocks: 10
   n_recur: 3
-  marker_filepath: D:/Motion/Story-HIM/HSInter/data/models_smplx_v1_1/models/markers
+  marker_filepath: E:/ComputerPrograms/HumanMotion/Sitcom-Crafter/HSInter/data/models_smplx_v1_1/models/markers
   seq_len: 40
   actfun: relu
   use_cont: true
@@ -20,6 +20,6 @@ trainconfig:
   num_epochs: 300
   num_epochs_fix: 60
   saving_per_X_ep: 30
-  body_model_path: D:/Motion/Envs/smplx/models
-  dataset_path: D:/Motion/Dataset/InterGen/motions_customized
+  body_model_path: E:/Dataset/HumanMotion/smplx/models
+  dataset_path: E:/Dataset/HumanMotion/InterGen/motions_customized
   is_train_smplx: False

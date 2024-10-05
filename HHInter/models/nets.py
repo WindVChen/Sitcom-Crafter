@@ -201,6 +201,7 @@ class InterDiffusion(nn.Module):
             motion_rep=self.motion_rep,
             # Batch size paramter is for SMPLX model initialization in loss calculation part, that is batch_size * seq_len.
             batch_size=self.batch_size,
+            train_phase_two=cfg.TRAIN_PHASE_TWO,
             # Whether calculate penetration on all smplx vertics or only on markers. The former one will double both the memory and time cost.
             use_vertex_pene=cfg.USE_VERTEX_PENETRATION,
             model_mean_type=ModelMeanType.START_X,
@@ -299,6 +300,7 @@ class InterDiffusion(nn.Module):
             motion_rep=self.motion_rep,
             # Batch size paramter is for SMPLX model initialization in loss calculation part, that is batch_size * seq_len.
             batch_size=B,
+            train_phase_two=self.cfg.TRAIN_PHASE_TWO,
             # Whether calculate penetration on all smplx vertics or only on markers. The former one will double both the memory and time cost.
             use_vertex_pene=self.cfg.USE_VERTEX_PENETRATION,
             model_mean_type=ModelMeanType.START_X,

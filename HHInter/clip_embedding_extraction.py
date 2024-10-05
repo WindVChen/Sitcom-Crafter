@@ -5,6 +5,7 @@ import torch
 import numpy as np
 from tqdm import tqdm
 import clip
+from HHInter.global_path import get_dataset_path
 
 
 def extract_clip_emb(file_path):
@@ -28,7 +29,7 @@ def extract_clip_emb(file_path):
     return text_features
 
 
-def compare_scores(text, emb_folder=r"D:\Motion\Dataset\Inter-X\clip_embs"):
+def compare_scores(text, emb_folder=os.path.join(get_dataset_path(), "Inter-X/clip_embs")):
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model, preprocess = clip.load("ViT-B/32", device=device)
 
@@ -61,11 +62,11 @@ def compare_scores(text, emb_folder=r"D:\Motion\Dataset\Inter-X\clip_embs"):
 
 
 if __name__ == '__main__':
-    is_test = True
+    is_test = False
 
     if not is_test:
-        data_path = r"D:\Motion\Dataset\Inter-X\annots"
-        emb_folder = r"D:\Motion\Dataset\Inter-X\clip_embs"
+        data_path = os.path.join(get_dataset_path(), "Inter-X/annots")
+        emb_folder = os.path.join(get_dataset_path(), "Inter-X/clip_embs")
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
         model, preprocess = clip.load("ViT-B/32", device=device)

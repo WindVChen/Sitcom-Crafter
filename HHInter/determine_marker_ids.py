@@ -5,6 +5,8 @@ import smplx
 from human_body_prior.tools.model_loader import load_model
 from human_body_prior.models.vposer_model import VPoser
 import torch
+from HHInter.global_path import get_dataset_path, get_program_root_path
+import os
 
 SSM_67 = ['C7', 'CLAV', 'LANK', 'LFWT', 'LBAK', 'LBCEP', 'LBSH', 'LBUM', 'LBUST', 'LCHEECK', 'LELB', 'LELBIN', 'LFIN',
           'LFRM2', 'LFTHI', 'LFTHIIN', 'LHEE', 'LIWR', 'LKNE', 'LKNI', 'LMT1', 'LMT5', 'LNWST', 'LOWR', 'LBWT',
@@ -369,7 +371,7 @@ trans_matrix = np.array([[1.0, 0.0, 0.0, 0],
                          [0.0, 0.0, 0.0, 1]])
 
 def main(
-        model_folder=r"D:\Motion\Envs\smplx\models",
+        model_folder=os.path.join(get_dataset_path(), "smplx/models"),
         model_type="smplx",
         ext="pkl",
         gender="neutral",
@@ -382,7 +384,7 @@ def main(
         ext=ext,
     )
 
-    vposer, _ = load_model('D:/Motion/Story-HIM/HSInter/data/models_smplx_v1_1/models/' + '/vposer_v2_0', model_code=VPoser,
+    vposer, _ = load_model(os.path.join(get_program_root_path(), 'Sitcom-Crafter/HSInter/data/models_smplx_v1_1/models/' + '/vposer_v2_0'), model_code=VPoser,
                                 remove_words_in_model_weights='vp_model.', disable_grad=True)
     vposer.eval()
 

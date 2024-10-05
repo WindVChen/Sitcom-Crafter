@@ -6,7 +6,16 @@ import pdb
 class ConfigCreator(object):
     def __init__(self, cfg_name):
         self.cfg_name = cfg_name
-        exppath = os.path.join( *(__file__.split('\\')[4:-2]) )
+        exppath = (__file__.split('\\')[:-2] if '\\' in __file__ else __file__.split('/')[:-2])
+
+        if '\\' in __file__:  # Windows
+            drive = exppath[0]
+            path = os.path.join(*exppath[1:])
+            exppath = os.path.join(drive + '\\', path)
+        
+        else:  # Linux
+            exppath = os.path.join('/', *exppath)
+
         expname = os.path.basename(exppath)
         cfg_file = exppath+'/cfg/{:s}.yml'.format(cfg_name)
         try:

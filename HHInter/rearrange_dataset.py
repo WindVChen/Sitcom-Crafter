@@ -125,12 +125,12 @@ if __name__ == '__main__':
     "3) Augment data by reversing the two person."
 
     #### set input output dataset paths
-    intergen_data_path = r'D:\Motion\Dataset\InterGen\motions'
-    output_path = r'D:\Motion\Dataset\InterGen\motions_customized'
+    intergen_data_path = os.path.join(get_dataset_path(), 'InterGen/motions')
+    output_path = os.path.join(get_dataset_path(), 'InterGen/motions_customized')
     OUT_FPS = 40
 
     ## read the corresponding smplh verts indices as markers.
-    with open(r'D:\Motion\Story-HIM\HSInter\data\models_smplx_v1_1\models\markers/SSM-smplh.json') as f:
+    with open(os.path.join(get_program_root_path(), 'Sitcom-Crafter/HSInter/data/models_smplx_v1_1/models/markers/SSM-smplh.json')) as f:
         marker_ssm_67 = list(json.load(f)['markersets'][0]['indices'].values())
 
     # InterGen dataset has more than 1,000 different betas, but all is for neutral model.

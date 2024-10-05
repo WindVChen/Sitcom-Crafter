@@ -1,5 +1,5 @@
 import sys
-sys.path.append(sys.path[0]+r"/../")
+sys.path.append(sys.path[0]+"/../")
 import numpy as np
 import torch
 
@@ -22,7 +22,7 @@ os.environ['MASTER_PORT'] = '12345'
 torch.multiprocessing.set_sharing_strategy('file_system')
 
 def build_models(cfg):
-    if cfg.NAME == "Story-HIM":
+    if cfg.NAME == "Sitcom-Crafter":
         model = InterGen(cfg, 1)
     return model
 
@@ -40,6 +40,8 @@ def evaluate_matching_score(motion_loaders, file):
     # print(motion_loaders.keys())
     print('========== Evaluating MM Distance ==========')
     for motion_loader_name, motion_loader in motion_loaders.items():
+        # if 'ground truth' in motion_loader_name:
+        #     continue
         all_motion_embeddings = []
         score_list = []
         all_size = 0
@@ -49,6 +51,8 @@ def evaluate_matching_score(motion_loaders, file):
         foot_penetration = 0
         scene_penetration = 0
         human_penetration = 0
+        scene_A = 0
+        scene_B = 0
         # print(motion_loader_name)
         with torch.no_grad():
             for idx, batch in tqdm(enumerate(motion_loader)):
@@ -57,11 +61,13 @@ def evaluate_matching_score(motion_loaders, file):
                 else:
                     batch_joint_format, batch_marker_format = batch[:len(batch)//2], batch[len(batch)//2:]
                 slide, f_pene = physics_metric.calculate_foot_physics(batch_marker_format, is_gt='ground truth' in motion_loader_name)
-                s_pene = physics_metric.calculate_scene_penet(batch_marker_format, is_gt='ground truth' in motion_loader_name)
+                s_pene_A, s_pene_B = physics_metric.calculate_scene_penet(batch_marker_format, is_gt='ground truth' in motion_loader_name)
                 h_pene = physics_metric.calculate_human_physics(batch_marker_format, is_gt='ground truth' in motion_loader_name)
                 foot_slide += slide
                 foot_penetration += f_pene
-                scene_penetration += s_pene
+                scene_penetration += s_pene_A + s_pene_B
+                scene_A += s_pene_A
+                scene_B += s_pene_B
                 human_penetration += h_pene
 
                 text_embeddings, motion_embeddings = eval_wrapper.get_co_embeddings(batch_joint_format, is_gt='ground truth' in motion_loader_name)
@@ -93,6 +99,9 @@ def evaluate_matching_score(motion_loaders, file):
             scene_penetration_dict[motion_loader_name] = scene_penetration / (all_size // batch_size)
             human_penetration_dict[motion_loader_name] = human_penetration / (all_size // batch_size)
 
+            scene_A = scene_A / (all_size // batch_size)
+            scene_B = scene_B / (all_size // batch_size)
+
             activation_dict[motion_loader_name] = all_motion_embeddings
 
         print(f'---> [{motion_loader_name}] MM Distance: {mm_dist:.4f}')
@@ -106,6 +115,8 @@ def evaluate_matching_score(motion_loaders, file):
 
         print(f'---> [{motion_loader_name}] Scene penetration: {scene_penetration_dict[motion_loader_name]:.4f}')
         print(f'---> [{motion_loader_name}] Scene penetration: {scene_penetration_dict[motion_loader_name]:.4f}', file=file, flush=True)
+        print(f'---> [{motion_loader_name}] Scene penetration A: {scene_A:.4f}', file=file, flush=True)
+        print(f'---> [{motion_loader_name}] Scene penetration B: {scene_B:.4f}', file=file, flush=True)
 
         print(f'---> [{motion_loader_name}] Human penetration: {human_penetration_dict[motion_loader_name]:.4f}')
         print(f'---> [{motion_loader_name}] Human penetration: {human_penetration_dict[motion_loader_name]:.4f}', file=file, flush=True)

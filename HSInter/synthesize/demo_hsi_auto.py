@@ -1,13 +1,13 @@
+import sys
+sys.path.append(sys.path[0]+"/../")
+sys.path.append(sys.path[0]+"/../../")
 import os
 
 import tqdm
 
 os.environ['API_KEY'] = 'AIzaSyCQc_UseY-HguVvknzL9BQAJfdiN16O67Q'
-os.environ['http_proxy'] = 'http://127.0.0.1:7890'
+# os.environ['http_proxy'] = 'http://127.0.0.1:7890'
 import pickle
-import sys
-sys.path.append(sys.path[0]+r"/../")
-sys.path.append(sys.path[0]+r"/../../")
 import numpy as np
 import torch
 import trimesh
@@ -39,8 +39,6 @@ from operator import itemgetter
 from itertools import groupby
 from HHInter.models.losses import GeneralContactLoss
 
-np.random.seed(2333)
-torch.manual_seed(2333)
 
 bm_path = get_SMPL_SMPLH_SMPLX_body_model_path()
 bm = smplx.create(bm_path, model_type='smplx',
@@ -373,6 +371,8 @@ def orders_revision(input_orders_1, input_orders_2, accessible_object):
                         "sit" in input_orders[id - 1] or "lie" in input_orders[id - 1]):
                     print(f"Need to stand up before walking, automatically add 'stand' order.")
                     input_orders.insert(id, "stand")
+            elif isinstance(cur_order, list):
+                pass
             elif "HHI" == cur_order[:3]:
                 if id == 0 or id == 1:
                     print(f"Need to have walking order before human-human interaction")
@@ -494,6 +494,9 @@ def walking_path_points_generation(scene_dir, scene_name, scene_path, segmented_
                 if seg_orders[i] is None:
                     # randomly sample a point within the scene area
                     point = np.random.rand(3) * extents - extents / 2 + centroid
+                    point[2] = 0
+                elif isinstance(seg_orders[i], list):
+                    point = np.array(seg_orders[i])
                     point[2] = 0
                 elif "HHI" in seg_orders[i][:3]:
                     point = None
@@ -788,7 +791,7 @@ def motion_generation(humaninter_segs, result_path, scene_path, scene_name, navm
                     for i in range(len(points) - 1):
                         start_point = points[i]
                         target_point = points[i + 1]
-                        if target_point == 'copy':
+                        if isinstance(target_point, str) and target_point == 'copy':
                             target_point = points[i]
                         if target_point is None:  # stand or HHI
                             continue
@@ -1039,6 +1042,10 @@ def motion_generation(humaninter_segs, result_path, scene_path, scene_name, navm
                                    smplx_param_A_old[:3][np.newaxis] + delta_T - transf_transl[0]) - delta_T
                 smplx_param_A_old[:3] = transl[0]
 
+                # For modifying the motion height, not penetrating the floor.
+                refer_height = (np.einsum('ij,tj->ti', transf_rotmat[0].T,
+                                   smplx_param_A[0].copy()[:3][np.newaxis] + delta_T - transf_transl[0]) - delta_T)[0]
+
             with open(result_path / 'person2.pkl', 'rb') as f:
                 data = pickle.load(f)
                 motions = data['motion']
@@ -1191,7 +1198,7 @@ def motion_generation(humaninter_segs, result_path, scene_path, scene_name, navm
             if intergen_result is not None or commdm_result is not None:
                 if intergen_result is not None:
                     print("Run InterGen.")
-                    command = f'python D:/Motion/InterGen/tools/infer.py --prompt "{text}"'
+                    command = f'python {os.path.join(get_program_root_path(), "InterGen/tools/infer.py")} --prompt "{text}"'
                     print(command)
                     subprocess.run(command)
                     print("Load InterGen results.")
@@ -1202,8 +1209,8 @@ def motion_generation(humaninter_segs, result_path, scene_path, scene_name, navm
                         out_params_B = data[1].numpy()
                 else:
                     print("Load commdm results.")
-                    command = f'python D:/Motion/priorMDM/sample/two_person_text2motion.py ' \
-                              f'--model_path D:/Motion/priorMDM/save/my_pw3d_text/model000400017.pt --text_prompt "{text}"'
+                    command = f'python {os.path.join(get_program_root_path(), "priorMDM/sample/two_person_text2motion.py")} ' \
+                              f'--model_path {os.path.join(get_program_root_path(), "priorMDM/save/my_pw3d_text/model000400017.pt")} --text_prompt "{text}"'
                     print(command)
                     subprocess.run(command)
                     print("Load commdm results.")
@@ -1220,7 +1227,7 @@ def motion_generation(humaninter_segs, result_path, scene_path, scene_name, navm
                                   (out_params_B[:, :3] - out_params_A[:, :3])[..., np.newaxis]
             else:
                 "Generate HHI interactions & Retrieve corresponding hand parameters from Inter-X dataset."
-                out_params, hand_params_1, hand_params_2 = pipeline_merge(sdf_condition, text, marker_condition,
+                out_params, hand_params_1, hand_params_2 = pipeline_merge(None, text, marker_condition,
                                                                           betas=None, hand_pose_retrieval=hand_pose_retrieval)
                 "Directly use existing betas will lead to motion distortion in some cases."
                 # betas=torch.from_numpy(np.stack([betas_A[np.newaxis], betas_B[np.newaxis]], axis=0)))
@@ -1237,6 +1244,14 @@ def motion_generation(humaninter_segs, result_path, scene_path, scene_name, navm
             do_slerp = True
             slerp_window_size = 4
 
+            # Only align the transl Z axis.
+            diff_height = refer_height.reshape(3)[2] - np.mean(out_params_A[..., :3].reshape(-1, 3)[:, 2])
+            out_params_A[..., :3] = out_params_A[..., :3] + np.array([0, 0, diff_height])
+
+            # Also use smplx_param_A_old here for B due to the stable of Character A motion
+            diff_height = refer_height.reshape(3)[2] - np.mean(out_params_B[..., :3].reshape(-1, 3)[:, 2])
+            out_params_B[..., :3] = out_params_B[..., :3] + np.array([0, 0, diff_height])
+
             for n, (out_params, smplx_params_old) in enumerate(
                     zip([out_params_A, out_params_B], [smplx_param_A_old, smplx_param_B_old])):
                 begin_second_motion = 0
@@ -1246,10 +1261,6 @@ def motion_generation(humaninter_segs, result_path, scene_path, scene_name, navm
                 # # Only align one of the two motions, while keep the relative position of the other.
                 # if (intergen_result is not None or commdm_result is not None) and n == 0:
                 #     out_params[..., 2] = smplx_params_old[2]
-
-                # Only align the transl Z axis.
-                diff_height = smplx_params_old[:3].reshape(3)[2] - out_params[..., :3].reshape(-1, 3)[0][2]
-                out_params[..., :3] = out_params[..., :3] + np.array([0, 0, diff_height])
 
                 if align_full_bodies:
                     # For the second person, leverage the relative rot and tranl to transform it. Thus can keep the original relation between the two persons.
@@ -1573,7 +1584,7 @@ def end_blender_file_preparation(result_path):
 
 
 def run(scene_name, start_iter):
-    scene_dir = Path(fr'D:\Motion\Story-HIM\HSInter\data\replica\{scene_name}')
+    scene_dir = Path(os.path.join(get_program_root_path(), f'Sitcom-Crafter/HSInter/data/replica/{scene_name}'))
     scene_path = scene_dir / 'mesh_floor.ply'
     json_path = scene_dir / 'habitat' / 'info_semantic.json'
     scene_sdf_path = scene_dir / 'sdf' / 'scene_sdf.pkl'
@@ -1582,7 +1593,7 @@ def run(scene_name, start_iter):
 
     sub_path = f"results_Story_HIM_{scene_name}_{start_iter}"
 
-    result_path = Path(f'{weight_name}/{sub_path}')
+    result_path = Path(f'{save_path_name}/{sub_path}')
     if result_path.exists():
         shutil.rmtree(result_path)
     result_path.mkdir(exist_ok=True)
@@ -1643,18 +1654,20 @@ def run(scene_name, start_iter):
         f.write(f"Orders-1: {processed_orders[0]} \n Orders-2: {processed_orders[1]}")
     "======================================="
 
-    # if os.path.exists(os.path.join("results_intergen", sub_path)):
-    #     with open(os.path.join("results_intergen", sub_path, 'orders.txt'), 'r') as f:
+    # if os.path.exists(os.path.join("results_intergen_orders_more_more", sub_path +'.txt')):
+    #     with open(os.path.join("results_intergen_orders_more_more", sub_path +'.txt'), 'r') as f:
     #         orders = f.read()
     #         orders = orders.split("\n")
     #         input_orders_1 = ast.literal_eval(orders[0].split("Orders-1: ")[1])
     #         input_orders_2 = ast.literal_eval(orders[1].split("Orders-2: ")[1])
-    #
+
+    #         processed_orders = orders_revision(input_orders_1, input_orders_2, accessible_object)
+
     #         # # remove orders with words "HHI:"
     #         # input_orders_1 = [order for order in input_orders_1 if order is None or "HHI:" not in order]
     #         # input_orders_2 = [order for order in input_orders_2 if order is None or "HHI:" not in order]
-    #
-    #         processed_orders = [input_orders_1, input_orders_2]
+
+    #         # processed_orders = [input_orders_1, input_orders_2]
 
     "======== Navmesh preprocessing ==========="
     print("\n Start processing navmesh...")
@@ -1718,27 +1731,22 @@ def run(scene_name, start_iter):
 if __name__ == "__main__":
     visualize = False
 
-    weight_name = "./results-story"
+    save_path_name = "./results-sitcom"
     # make dirs
-    os.makedirs(weight_name, exist_ok=True)
+    os.makedirs(save_path_name, exist_ok=True)
 
-    # intergen_result = r"D:\Motion\InterGen\results\In an intense boxing match, one is continuously punching while the other is defending and counterattacking..pkl"
-    intergen_result = None # r"D:\Motion\InterGen\results\for_story.pkl"  # Set to the path of the InterGen result file if want to compare with InterGen. The result format should be indentical to smpl_params from the regressor.
-    commdm_result = None # r"D:\Motion\priorMDM\for_story.pkl"
+    intergen_result = None # os.path.join(get_program_root_path(), "InterGen/results/for_story.pkl")  # Set to the path of the InterGen result file if want to compare with InterGen. The result format should be indentical to smpl_params from the regressor.
+    commdm_result = None # os.path.join(get_program_root_path(), "priorMDM/for_story.pkl")
     use_predicted_betas = False  # If True, use the betas predicted by body regressor.
     hand_pose_retrieval = True  # If True, use the hand pose retrieval to get the hand pose.
     collision_revision_flag = True  # If True, revise the collision by speed up and slow down the motions.
-    assert not ((intergen_result or commdm_result) and hand_pose_retrieval), "Hand_pose_retrieval only support Story-HIM."
+    assert not ((intergen_result or commdm_result) and hand_pose_retrieval), "Hand_pose_retrieval only support Sitcom-Crafter."
     assert not (intergen_result and commdm_result), "Only one of the intergen_result and commdm_result can be set."
 
-    scene_names = [name for name in os.listdir(r'D:\Motion\Story-HIM\HSInter\data\replica') if "sdf" not in name]
+    scene_names = [name for name in os.listdir(os.path.join(get_program_root_path(), 'Sitcom-Crafter/HSInter/data/replica')) if "sdf" not in name]
     for id, scene_name in tqdm(enumerate(scene_names)):
         start_iter = 0
-        while start_iter < 10:
-            # try:
+        while start_iter < 3:
             run(scene_name, start_iter)
-            # except Exception as e:
-            #     # print error
-            #     print("Error:", e)
-            #     continue
             start_iter += 1
+            print("Finish scene:", scene_name, "Iter:", start_iter)

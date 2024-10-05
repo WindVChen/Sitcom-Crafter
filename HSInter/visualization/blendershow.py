@@ -1,6 +1,7 @@
 import os.path
 import bpy
 import pickle
+from HHInter.global_path import get_program_root_path
 
 
 def visualize(mesh_path, result_path):
@@ -54,7 +55,7 @@ def visualize(mesh_path, result_path):
     bpy.ops.wm.perform_animation_transfer()
 
     "scene mesh"
-    bpy.ops.import_mesh.ply(filepath=mesh_path)
+    bpy.ops.wm.ply_import(filepath=mesh_path)
 
     my_areas = bpy.context.workspace.screens[0].areas
     my_shading = 'SOLID'  # 'WIREFRAME' 'SOLID' 'MATERIAL' 'RENDERED'
@@ -72,11 +73,25 @@ def visualize(mesh_path, result_path):
 if __name__ == "__main__":
     character_pair = 1 # 2
     file_type = "smplx"  # smplh / smplx, where smplx has hand pose.
-    result_path = r"D:\Motion\Story-HIM\HSInter\results_Story_HIM_apartment_1\smplx-bvh"
-    other_elements_path = r"D:\Motion\Story-HIM\HSInter\visualization\data"
+    other_elements_path = os.path.join(get_program_root_path(), "Sitcom-Crafter/HSInter/visualization/data")
 
-    with open(r"D:\Motion\Story-HIM\HSInter\results_Story_HIM_apartment_1\person1.pkl", 'rb') as f:
-        mesh_path = pickle.load(f)['scene_path']
-    # PATH format to str format
-    mesh_path = str(mesh_path)
-    visualize(mesh_path, result_path)
+    sub_folders = ["results_Story_HIM_apartment_1_1", "results_Story_HIM_office_0_0", "results_Story_HIM_office_0_1", "results_Story_HIM_office_0_2", "results_Story_HIM_office_1_0", "results_Story_HIM_office_1_1", "results_Story_HIM_office_3_2", "results_Story_HIM_office_4_1", "results_Story_HIM_room_0_1", "results_Story_HIM_room_1_2", "results_Story_HIM_room_2_0", "results_Story_HIM_room_2_1", "results_Story_HIM_room_2_2"]
+
+    for id in [1, 2]:
+        character_pair = id
+        for sub_folder in sub_folders:
+            root_path = os.path.join(os.path.join(get_program_root_path(), "Sitcom-Crafter/HSInter/Results-custom-story"), sub_folder)
+            result_path = os.path.join(root_path, f"{file_type}-bvh")
+            with open(os.path.join(root_path, "person1.pkl"), 'rb') as f:
+                mesh_path = pickle.load(f)['scene_path']
+            # PATH format to str format
+            mesh_path = str(mesh_path)
+            visualize(mesh_path, result_path)
+
+            # save blender main file
+            bpy.ops.wm.save_as_mainfile(filepath=sub_folder + '_' + str(id) + '_anime.blend')
+
+            # remove/purge all the objects
+            bpy.ops.object.select_all(action='DESELECT')
+            bpy.ops.object.select_all(action='SELECT')
+            bpy.ops.object.delete()

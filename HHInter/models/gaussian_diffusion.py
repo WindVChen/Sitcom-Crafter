@@ -1364,11 +1364,12 @@ def space_timesteps(num_timesteps, section_counts):
 
 class MotionDiffusion(GaussianDiffusion):
 
-    def __init__(self, use_timesteps, motion_rep, batch_size, use_vertex_pene, **kwargs):
+    def __init__(self, use_timesteps, motion_rep, batch_size, train_phase_two, use_vertex_pene, **kwargs):
         self.use_timesteps = set(use_timesteps)
         self.motion_rep = motion_rep
         self.timestep_map = []
         self.original_num_steps = len(kwargs["betas"])
+        self.train_phase_two = train_phase_two
 
         base_diffusion = GaussianDiffusion(**kwargs)  # pylint: disable=missing-kwoa
         last_alpha_cumprod = 1.0
@@ -1515,7 +1516,7 @@ class MotionDiffusion(GaussianDiffusion):
             if is_normalized:
                 prediction = self.normalizer.forward(prediction)
 
-        interloss_manager = InterLoss("l2", 67, is_normalized)
+        interloss_manager = InterLoss("l2", 67, is_normalized, self.train_phase_two)
         interloss_manager.forward(prediction, target, mask, timestep_mask)
 
         if is_normalized:
@@ -1531,30 +1532,32 @@ class MotionDiffusion(GaussianDiffusion):
         prediction = prediction.reshape(B, T, 2, -1)
         target = target.reshape(B, T, 2, -1)
 
-        loss_a_manager = CustomLoss("A")
-        loss_a_manager.forward(prediction[...,0,:], sdf_points, motion_R[..., :3], motion_T[..., :3], mask[...,0,:], timestep_mask)
+        if self.train_phase_two:
+            loss_a_manager = CustomLoss("A")
+            loss_a_manager.forward(prediction[...,0,:], sdf_points, motion_R[..., :3], motion_T[..., :3], mask[...,0,:], timestep_mask)
 
-        loss_b_manager = CustomLoss("B")
-        loss_b_manager.forward(prediction[...,1,:], sdf_points, motion_R[..., 3:], motion_T[..., 3:], mask[...,0,:], timestep_mask)
+            loss_b_manager = CustomLoss("B")
+            loss_b_manager.forward(prediction[...,1,:], sdf_points, motion_R[..., 3:], motion_T[..., 3:], mask[...,0,:], timestep_mask)
 
-        loss_a_manager_geo = GeometricLoss("l2", 67, "Geo_A")
+        loss_a_manager_geo = GeometricLoss("l2", 67, "Geo_A", self.train_phase_two)
         loss_a_manager_geo.forward(prediction[..., 0, :], target[..., 0, :], mask[..., 0, :],
                                    timestep_mask, motion_R[..., :3], motion_T[..., :3], motion_feet[..., :6], feet_height_thresh[:, :6])
 
-        loss_b_manager_geo = GeometricLoss("l2", 67, "Geo_B")
+        loss_b_manager_geo = GeometricLoss("l2", 67, "Geo_B", self.train_phase_two)
         loss_b_manager_geo.forward(prediction[..., 1, :], target[..., 1, :], mask[..., 0, :],
                                    timestep_mask, motion_R[..., 3:], motion_T[..., 3:], motion_feet[..., 6:], feet_height_thresh[:, 6:])
 
         losses = {}
-        losses.update(loss_a_manager.losses)
-        losses.update(loss_b_manager.losses)
+        if self.train_phase_two:
+            losses.update(loss_a_manager.losses)
+            losses.update(loss_b_manager.losses)
         losses.update(loss_a_manager_geo.losses)
         losses.update(loss_b_manager_geo.losses)
         losses.update(interloss_manager.losses)
         if self.smplx_model is not None:
             losses.update(markerloss_manager.losses)
             losses.update(humanpeneloss_manager.losses)
-        losses["total"] = loss_a_manager.losses["A_r_pene"] + loss_b_manager.losses["B_r_pene"] + interloss_manager.losses["total"] + \
+        losses["total"] = ((loss_a_manager.losses["A_r_pene"] + loss_b_manager.losses["B_r_pene"]) if self.train_phase_two else 0) + interloss_manager.losses["total"] + \
                           loss_a_manager_geo.losses["Geo_A"] + loss_b_manager_geo.losses["Geo_B"] + \
                           ((markerloss_manager.losses["reproj"] + humanpeneloss_manager.losses['humanpenetration']) if self.smplx_model is not None else 0)
 
