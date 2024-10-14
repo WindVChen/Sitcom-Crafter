@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="DESCRIPTION META TAG">
+  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
+  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
+  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>Sitcom-Crafter: A Plot-Driven Human Motion Generation System in 3D Scenes</title>
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Sitcom-Crafter: A Plot-Driven Human Motion Generation System in 3D Scenes</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="https://windvchen.github.io/" target="_blank">Jianqi Chen</a><sup>1</sup>,</span>
+                <span class="author-block">
+                  <a href="https://www.linkedin.com/in/panwenhu-profile/en?originalSubdomain=ae" target="_blank">Panwen Hu</a><sup>2</sup>,</span>
+                  <span class="author-block">
+                    <a href="https://scholar.google.com/citations?user=8suupocAAAAJ&hl=en" target="_blank">Xiaojun Chang</a><sup>3</sup>,</span>
+                    <span class="author-block">
+                      <a href="https://scholar.google.com.sg/citations?user=kNhFWQIAAAAJ&hl=en" target="_blank">Zhenwei Shi</a><sup>1</sup>,</span>
+                      <br>
+                      <span class="author-block">
+                        <a href="https://scholar.google.no/citations?user=9lDh2UgAAAAJ&hl=no" target="_blank">Michael Christian Kampffmeyer</a><sup>4</sup>,</span>
+                        <span class="author-block">
+                          <a href="https://scholar.google.com/citations?user=voxznZAAAAAJ&hl=zh-CN" target="_blank">Xiaodan Liang</a><sup>2</sup>,</span>
+                  </div>
+
+                  <div class="is-size-6 publication-authors">
+                    <span class="author-block">
+                      <sup>1</sup>Beihang University &nbsp&nbsp <sup>2</sup>MBZUAI &nbsp&nbsp <sup>3</sup> University of Technology Sydney &nbsp&nbsp <sup>4</sup>UiT the Arctic University of Norway &nbsp&nbsp 
+                      <br>
+                    </span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+                  
+                    <!-- ArXiv abstract Link -->
+                    <span class="link-block">
+                      <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
+                      class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon">
+                        <i class="ai ai-arxiv"></i>
+                      </span>
+                      <span>arXiv</span>
+                    </a>
+                  </span>
+
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser Image-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <!-- Image -->
+      <div class="columns is-centered">
+        <div>
+          <figure>
+            <img src="static/images/Teaser-detail.jpg" alt="Teaser image">
+          </figure>
+        </div>
+      </div>
+      <h2 class="subtitle has-text-centered">
+        <b>Sitcom-Crafter</b> supports various types of human motion generation (represented by different colored toruses: <span style="color: #C36D3E;"><b>Human Locomotion</b></span>, <span style="color: #795DA1;"><b>Human-Scene Interaction</b></span>, and <span style="color: #545F6C;"><b>Human-Human Interaction</b></span>) within a 3D scene. The motion generation is effectively guided by long plot provided by user.
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser Image -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Recent advancements in human motion synthesis have focused on specific types of motions, such as human-scene interaction, locomotion or human-human interaction, however, there is a lack of a unified system capable of generating a diverse combination of motion types. In response, we introduce <em>Sitcom-Crafter</em>, a comprehensive and extendable system for human motion generation in 3D, which can be guided by extensive plot contexts to enhance workflow efficiency for anime and game designers. The system is comprised of eight modules, three of which are dedicated to motion generation, while the remaining five are augmentation modules that ensure consistent fusion of motion sequences and system functionality. Central to the generation modules is our novel 3D scene-aware human-human interaction module, which addresses collision issues by synthesizing implicit 3D Signed Distance Function (SDF) points around motion spaces, thereby minimizing human-scene collisions without additional data collection costs. Complementing this, our locomotion and human-scene interaction modules leverage existing methods to enrich the system's motion generation capabilities. Augmentation modules encompass plot comprehension for command generation, motion synchronization for seamless integration of different motion types, hand pose retrieval to enhance motion realism, motion collision revision to prevent human collisions, and 3D retargeting to ensure visual fidelity. Experimental evaluations validate the system's ability to generate high-quality, diverse, and physically realistic motions, underscoring its potential for advancing creative workflows. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!-- Paper network -->
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">System Overview</h2>
+        <figure>
+          <img src="static/images/framework.jpg" alt="framework image">
+        </figure>
+        <br>
+        <div class="content has-text-justified">
+          <p>
+            The Sitcom-Crafter system consists of eight modules in total, three for motion generation and five for function enhancement. The arrows between modules indicate the workflow direction. The system supports generation guided by 3D scene structure and long plot context. The plot comprehension module is responsible for interpreting the guiding context into recognizable commands and distributing them to the generation modules. The three generation modules synthesize different motion types: human-scene interaction, human locomotion, and human-human interaction. The motion synchronization module ensures motion consistency between the different generation modules. The hand pose retrieval module augments the motion results with hand motion. The collision revision module corrects frames where characters collide with each other. Finally, the motion retargeting module converts the plain parametric model into detailed 3D digital human assets.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper network -->
+
+
+<!-- Motion Comparisons Video carousel -->
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered"><h2 class="title is-3">Motion Comparisons</h2></div>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-video1">
+          <video poster="" id="video1" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-1.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-2.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" autoplay controls muted loop height="100%">\
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-3.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video4">
+          <video poster="" id="video4" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-4.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video5">
+          <video poster="" id="video5" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-5.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video6">
+          <video poster="" id="video6" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-6.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video7">
+          <video poster="" id="video7" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-7.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video8">
+          <video poster="" id="video8" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-8.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video9">
+          <video poster="" id="video9" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-9.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video10">
+          <video poster="" id="video10" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Compare-10.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End video carousel -->
+
+<!-- Long Plot carousel -->
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered"><h2 class="title is-3">Long Plot Generations</h2></div>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-video11">
+          <video poster="" id="video11" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Story-1.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video12">
+          <video poster="" id="video12" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Story-2.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video13">
+          <video poster="" id="video13" autoplay controls muted loop height="100%">\
+            <!-- Your video file here -->
+            <source src="static/videos/Story-3.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video14">
+          <video poster="" id="video14" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Story-4.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video15">
+          <video poster="" id="video15" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Story-5.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video16">
+          <video poster="" id="video16" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Story-6.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video17">
+          <video poster="" id="video17" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Story-7.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video18">
+          <video poster="" id="video18" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Story-8.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video19">
+          <video poster="" id="video19" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Story-9.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video20">
+          <video poster="" id="video20" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Story-10.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End video carousel -->
+
+<!-- Ablation video -->
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered"><h2 class="title is-3">Ablations</h2></div>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-video21">
+          <video poster="" id="video21" autoplay controls muted loop height="100%">
+            <!-- Your video file here -->
+            <source src="static/videos/Ablation.mp4"
+            type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End youtube video -->
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>BibTex Code Here</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8 has-text-centered">
+        <div class="content">
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a>. <br> This website is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
