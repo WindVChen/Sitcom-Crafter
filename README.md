@@ -1,13 +1,13 @@
 <div align="center">
 
-<h1><a href="https://arxiv.org/abs/24xx.xxxxx">Sitcom-Crafter: A Plot-Driven Human Motion Generation System in 3D Scenes</a></h1>
+<h1><a href="https://arxiv.org/abs/2410.10790">Sitcom-Crafter: A Plot-Driven Human Motion Generation System in 3D Scenes</a></h1>
 
 **[Jianqi Chen](https://windvchen.github.io/), [Panwen Hu](https://www.linkedin.com/in/panwenhu-profile/en?originalSubdomain=ae), [Xiaojun Chang](https://scholar.google.com/citations?user=8suupocAAAAJ&hl=en), [Zhenwei Shi](https://scholar.google.com.sg/citations?user=kNhFWQIAAAAJ&hl=en), [Michael Christian Kampffmeyer](https://scholar.google.no/citations?user=9lDh2UgAAAAJ&hl=en), and [Xiaodan Liang](https://scholar.google.com/citations?user=voxznZAAAAAJ&hl=en)**
 
 ![](https://komarev.com/ghpvc/?username=windvchenSitcom&label=visitors)
 ![GitHub stars](https://badgen.net/github/stars/windvchen/Sitcom-Crafter)
 [![](https://img.shields.io/badge/license-Apache--2.0-blue)](#License)
-[![](https://img.shields.io/badge/arXiv-24xx.xxxxx-b31b1b.svg)](https://arxiv.org/abs/24xx.xxxxx)
+[![](https://img.shields.io/badge/arXiv-2410.10790-b31b1b.svg)](https://arxiv.org/abs/2410.10790)
 
 </div>
 
@@ -16,6 +16,8 @@
 This repository is the official implementation of *Sitcom-Crafter*. If you encounter any question, please feel free to contact us. You can create an issue or just send email to me windvchen@gmail.com. Also welcome for any idea exchange and discussion.
 
 ## Updates
+
+[**10/15/2024**] Code public.
 
 [**10/05/2024**] Code cleanup done. Waiting to be made public.
 
@@ -37,6 +39,7 @@ This repository is the official implementation of *Sitcom-Crafter*. If you encou
       - [3D Replica Scene Data Preparation](#3D-Replica-Scene-Data-Preparation)
       - [SMPL/SMPLH/SMPLX Model Preparation](#SMPLSMPLHSMPLX-Model-Preparation)
       - [Essentials for Human-Human Penetration Loss Preparation](#Essentials-for-Human-Human-Penetration-Loss-Preparation)
+      - [Human locomotion and human-scene interaction pretrained weights and configurations](#human-locomotiona-and-human-scene-interaction-pretrained-weights-and-configurations)
 - [Body Regressor](#Body-Regressor)
    - [Body Regressor Training](#Body-Regressor-Training)
    - [Body Regressor Evaluation & Visualization](#Body-Regressor-Evaluation--Visualization)
@@ -164,7 +167,7 @@ For the SMPLX models, please also copy them to the path `HSInter\data\models_smp
 
 Download the essentials for Human-Human Penetration Loss from the [official website](https://drive.google.com/uc?id=16eYddIxKPaZU-PjrH1x0Fgsen-x0ip3f) provided by [BUDDI](https://github.com/muelea/buddi) and save them in the `HHInter\data`.
 
-#### Human locomotiona and human-scene interaction pretrained weights and configurations
+#### Human locomotion and human-scene interaction pretrained weights and configurations
 
 Download the pretrained weights and configurations of the human locomotion and human-scene interaction modules from the [official website](https://drive.google.com/drive/folders/1AvM4GvdkG1OkggaQnggNeGmt2xgipKRU) by [DIMOS](https://github.com/zkf1997/DIMOS) and save them in the `HHInter\` path (force overrides if there are conflicts).
 
@@ -271,7 +274,11 @@ To visualize the generated motion sequences (**with 3D retargeting**) in Blender
 ## Citation & Acknowledgments
 If you find this paper useful in your research, please consider citing:
 ```
-@article{
+@article{chen2024sitcomcrafterplotdrivenhumanmotion,
+  title={Sitcom-Crafter: A Plot-Driven Human Motion Generation System in 3D Scenes},
+  author={Chen, Jianqi and Hu, Panwen and Chang, Xiaojun and Shi, Zhenwei and Kampffmeyer, Michael and Liang, Xiaodan},
+  journal={arXiv preprint arXiv:2410.10790},
+  year={2024}
 }
 ```
 
