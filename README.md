@@ -8,6 +8,8 @@
 ![GitHub stars](https://badgen.net/github/stars/windvchen/Sitcom-Crafter)
 [![](https://img.shields.io/badge/license-Apache--2.0-blue)](#License)
 [![](https://img.shields.io/badge/arXiv-2410.10790-b31b1b.svg)](https://arxiv.org/abs/2410.10790)
+<a href='https://windvchen.github.io/Sitcom-Crafter/'>
+  <img src='https://img.shields.io/badge/Project-Page-pink?style=flat&logo=Google%20chrome&logoColor=pink'></a>
 
 </div>
 
