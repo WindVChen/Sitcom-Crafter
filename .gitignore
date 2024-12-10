@@ -9,7 +9,17 @@ __pycache__
 *.log
 *.ply
 HSInter/coins/checkpoints
-HSInter/data
+
+# Ignore the entire data folder, except specific paths
+HSInter/data/*
+!HSInter/data/models_smplx_v1_1/
+
+# Ignore everything under models_smplx_v1_1 except markers JSON files
+HSInter/data/models_smplx_v1_1/*
+!HSInter/data/models_smplx_v1_1/models/
+HSInter/data/models_smplx_v1_1/models/*
+!HSInter/data/models_smplx_v1_1/models/markers/
+
 HSInter/results*
 HSInter/results_Story_HIM
 marker_regressor/results*
