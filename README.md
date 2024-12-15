@@ -79,6 +79,9 @@ Recent advancements in human motion synthesis have focused on specific types of 
    ```
    pip install -r requirements.txt
    ```
+
+   Please install `human_body_prior` package from the [official website](https://github.com/nghorbani/human_body_prior), as the package version is outdated in the PyPI repository.
+
    (You may encounter some issues when installing the `pointnet2_ops` and `pytorch3d` packages. If so, please compile the `pointnet2_ops` and `pytorch3d` packages manually according to their official instructions.)
 
 ## Pretrained Weights Release

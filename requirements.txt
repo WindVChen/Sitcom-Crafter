@@ -1,6 +1,5 @@
 boto3==1.35.10
 dotmap==1.3.30
-human_body_prior==0.8.5.0
 hydra-core==1.3.2
 imageio==2.35.1
 lightning==1.9.1
