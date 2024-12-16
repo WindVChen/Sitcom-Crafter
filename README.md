@@ -174,7 +174,7 @@ Download the essentials for Human-Human Penetration Loss from the [official webs
 
 #### Human locomotion and human-scene interaction pretrained weights and configurations
 
-Download the pretrained weights and configurations of the human locomotion and human-scene interaction modules from the [official website](https://drive.google.com/drive/folders/1AvM4GvdkG1OkggaQnggNeGmt2xgipKRU) by [DIMOS](https://github.com/zkf1997/DIMOS) and save them in the `HHInter\` path (force overrides if there are conflicts).
+Download the pretrained weights and configurations of the human locomotion and human-scene interaction modules from the [official website](https://drive.google.com/drive/folders/1AvM4GvdkG1OkggaQnggNeGmt2xgipKRU) by [DIMOS](https://github.com/zkf1997/DIMOS) and save them in the `HSInter\` path (force overrides if there are conflicts). You also need to configure PROX-S into the `HSInter\data` path as mentioned in the [official website](https://github.com/zkf1997/COINS?tab=readme-ov-file#prox-s-dataset), and have the [COINS checkpoints](https://drive.google.com/drive/folders/1dKcFuWdR4QxciIuYclIVBenVepGRj4Oh) in the `HSInter\coins\checkpoints` path.
 
 ## Body Regressor
 
