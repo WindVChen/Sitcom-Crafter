@@ -2,7 +2,7 @@
 
 <h1><a href="https://arxiv.org/abs/2410.10790">Sitcom-Crafter: A Plot-Driven Human Motion Generation System in 3D Scenes</a></h1>
 
-**[Jianqi Chen](https://windvchen.github.io/), [Panwen Hu](https://www.linkedin.com/in/panwenhu-profile/en?originalSubdomain=ae), [Xiaojun Chang](https://scholar.google.com/citations?user=8suupocAAAAJ&hl=en), [Zhenwei Shi](https://scholar.google.com.sg/citations?user=kNhFWQIAAAAJ&hl=en), [Michael Christian Kampffmeyer](https://scholar.google.no/citations?user=9lDh2UgAAAAJ&hl=en), and [Xiaodan Liang](https://scholar.google.com/citations?user=voxznZAAAAAJ&hl=en)**
+**[Jianqi Chen](https://windvchen.github.io/), [Panwen Hu](https://www.linkedin.com/in/panwenhu-profile/en?originalSubdomain=ae), [Xiaojun Chang](https://scholar.google.com/citations?user=8suupocAAAAJ&hl=en), [Zhenwei Shi](https://scholar.google.com.sg/citations?user=kNhFWQIAAAAJ&hl=en), [Michael Kampffmeyer](https://scholar.google.no/citations?user=9lDh2UgAAAAJ&hl=en), and [Xiaodan Liang](https://scholar.google.com/citations?user=voxznZAAAAAJ&hl=en)**
 
 ![](https://komarev.com/ghpvc/?username=windvchenSitcom&label=visitors)
 ![GitHub stars](https://badgen.net/github/stars/windvchen/Sitcom-Crafter)
@@ -15,9 +15,13 @@
 
 ### Share us a :star: if this repo does help
 
-This repository is the official implementation of *Sitcom-Crafter*. If you encounter any question, please feel free to contact us. You can create an issue or just send email to me windvchen@gmail.com. Also welcome for any idea exchange and discussion.
+This repository is the official implementation of ***Sitcom-Crafter***. The newest version of the paper can be accessed in [[OpenReview](https://openreview.net/forum?id=FvIASa0tau)], the previous version of the paper can be accessed in [[arXiv](https://arxiv.org/abs/2410.10790)]. ***(Accepted by ICLR 2025)***
+
+If you encounter any question, please feel free to contact us. You can create an issue or just send email to me windvchen@gmail.com. Also welcome for any idea exchange and discussion.
 
 ## Updates
+
+[**02/06/2025**] This paper has been accepted by **ICLR 2025**.
 
 [**10/15/2024**] Code public.
 
